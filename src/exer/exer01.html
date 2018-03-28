@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <style>
+  h2{font-size:20px;padding:30px 0 10px;}
+  </style>
+</head>
+<body>
+  <div id="app">
+    {{ message }}
+  </div>
+  <script>
+    
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: '각 Vue 인스턴스는 data 객체에 있는 모든 속성을 프록시처리 한다.',
+        rowHtml: '<span style="color:red">data</span>'
+      }
+    });
+  </script>
+  <h2>조건문과 반복문</h2>
+  <div id="app2">
+      <p v-if="seen" style="font-size:18px;">보이나요</p>
+  </div>
+  <script>
+    var app2 = new Vue({
+      el: '#app2',
+      data: {
+        seen: true
+      }
+    });
+  </script>
+  <div id="app3">
+    <ol>
+      <li v-for="todo in todos">{{todo.text}}</li>
+    </ol>  
+  </div>
+  <script>
+    var app3 = new Vue({
+      el: '#app3',
+      data: {
+        todos : [
+          {text:'Javascript 배우기'},
+          {text:'Vue 배우기'},
+          {text:'무언가 멋진 것을 만들기'}
+        ]
+      }
+    });
+  </script>
+
+  <h2>사용자 입력 핸들링</h2>
+  <div id="app4">
+    <p>
+      {{msg}}
+    </p>
+    <button type="button" v-on:click="reverseMsg">메시지 뒤집기</button>
+  </div>
+  <script>
+    var app4 = new Vue({
+      el: '#app4',
+      data: {
+        msg: '안녕하세요! vuejs!'
+      },
+      methods: {
+        reverseMsg : function () {
+          console.log(this);
+          this.msg = this.msg.split('').reverse().join('');
+        }
+      }
+    });
+  </script>
+
+  <h3>입력과 앱상태를 양방향으로 바인딩하는 v-model</h3>
+  <div id="app5">
+    <p>
+      {{msg}}
+    </p>
+    <input type="text" v-model="msg" style="height:30px;border:1px solid #999">
+  </div>
+  <script>
+    var app5 = new Vue({
+      el: '#app5',
+      data: {
+        msg : '안녕하세요 Vue!'
+      }
+    })
+  </script>
+
+  <h2>컴포넌트를 사용한 작성방법</h2>
+  <p>Vue에서, 컴포넌트는 본질적으로 미리 정의된 옵션을 가진 vue인스턴스이다.</p>
+  <div id="app6">
+    <ol>
+      <todo-item
+      v-for="item in groceryList"
+      v-bind:todo="item"
+      v-bind:key="item.id">
+      </todo-item>
+    </ol>
+  </div>
+  <script>
+    Vue.component('todo-item', {
+      props:['todo'],
+      template:'<li>{{todo.text}}</li>'
+    });
+    var app6 = new Vue({
+      el: '#app6',
+      data: {
+        groceryList: [
+          {id:0, text: 'Vegetables'},
+          {id:1, text: 'Cheese'},
+          {id:2, text: 'Whatever else humans are supposed to eat'}
+        ]
+      }
+    })
+  </script>
+  
+ </body>
+</html>
